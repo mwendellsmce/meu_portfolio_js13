@@ -80,13 +80,13 @@ Para executar o projeto em ambiente local, siga os passos abaixo.
 1. Clone o repositório:
 
    ```bash
-   git clone https://github.com/rafaelq80/portfolio_tjs13.git
+   git clone https://github.com/mwendellsmce/meu_portfolio_js13.git
    ```
 
 2. Acesse a pasta do projeto:
 
    ```bash
-   cd portfolio_tjs13
+   cd portfolio_frontend
    ```
 
 3. Abra o projeto no Visual Studio Code:
