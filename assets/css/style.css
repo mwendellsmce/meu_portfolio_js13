@@ -11,17 +11,17 @@
 
 /* Variáveis de Cor e Espaçamento */
 :root {
-    --purple-50: #f4eaff;
-    --purple-100: #e9dcfa;
-    --purple-200: #cdb3f0;
-    --purple-300: #b186e5;
-    --purple-400: #9460db;
-    --purple-500: #6b36c8;
-    --purple-600: #5b2ca0;
-    --purple-700: #4c2177;
-    --purple-800: #441f88;
-    --purple-900: #2a0e4d;
-    --purple-950: #1a0730;
+    --blue-50: #f0f4f8;   /* Fundo super claro (quase branco com toque de gelo) */
+    --blue-100: #d9e2ec;  /* Fundo de elementos inativos (leve acinzentado azulado) */
+    --blue-200: #bcccdc;
+    --blue-300: #9fb3c8;
+    --blue-400: #829ab1;
+    --blue-500: #1e3a8a;  /* Azul Marinho vibrante (para os botões e links) */
+    --blue-600: #172e70;  
+    --blue-700: #112255;  /* Marinho Escuro (para bordas e estados hover) */
+    --blue-800: #0a1438;  /* Azul "Meia-Noite" super escuro (para o Header e Footer) */
+    --blue-900: #050a1f;  /* Quase preto azulado */
+    --blue-950: #020510;
 
     --gray-200: #e8e8e8;
     --gray-400: #505861;
@@ -31,8 +31,8 @@
     --error: #e63946;
 
     --shadow-sm: 0 0.25rem 0.5rem rgba(0, 0, 0, 0.05);
-    --shadow-md: 0 0.25rem 0.75rem rgba(107, 54, 200, 0.3);
-    --shadow-lg: 0 0.5rem 1.5rem rgba(107, 54, 200, 0.2);
+    --shadow-md: 0 0.25rem 0.75rem rgba(10, 20, 56, 0.3); /* Ajustado para sombra azul escura */
+    --shadow-lg: 0 0.5rem 1.5rem rgba(10, 20, 56, 0.2); /* Ajustado para sombra azul escura */
 
     --spacing-xs: 0.5rem;
     --spacing-sm: 1rem;
@@ -103,26 +103,26 @@ main {
 }
 
 .botao {
-    border-color: var(--purple-500);
-    background-color: var(--purple-500);
+    border-color: var(--blue-500);
+    background-color: var(--blue-500);
     color: var(--white);
 }
 
 .botao:hover {
-    border-color: var(--purple-800);
-    background-color: var(--purple-800);
+    border-color: var(--blue-800);
+    background-color: var(--blue-800);
     box-shadow: var(--shadow-md);
     transform: translateY(-0.25rem);
 }
 
 .botao-outline {
-    border-color: var(--purple-500);
+    border-color: var(--blue-500);
     background-color: transparent;
-    color: var(--purple-500);
+    color: var(--blue-500);
 }
 
 .botao-outline:hover {
-    background-color: var(--purple-500);
+    background-color: var(--blue-500);
     color: var(--white);
     transform: translateY(-0.25rem);
 }
@@ -146,7 +146,7 @@ header {
     height: 5rem;
     border-bottom: var(--spacing-xs) solid var(--gray-200);
     box-shadow: var(--shadow-sm);
-    background-color: var(--purple-800);
+    background-color: var(--blue-800);
 }
 
 header a {
@@ -156,7 +156,7 @@ header a {
 }
 
 header a:hover {
-    color: var(--purple-100);
+    color: var(--blue-100);
 }
 
 #titulo {
@@ -253,7 +253,7 @@ header a:hover {
 
 .about-image img {
     width: 100%;
-    border: 0.35rem solid var(--purple-500);
+    border: 0.35rem solid var(--blue-500);
     border-radius: var(--radius-full);
     box-shadow: var(--shadow-lg);
 }
@@ -264,7 +264,7 @@ header a:hover {
     margin-bottom: var(--spacing-md);
     font-size: var(--text-3xl);
     font-weight: 700;
-    color: var(--purple-800);
+    color: var(--blue-800);
 }
 
 .about-content p {
@@ -298,7 +298,7 @@ header a:hover {
 .data-number {
     font-size: var(--text-xl);
     font-weight: 700;
-    color: var(--purple-500);
+    color: var(--blue-500);
 }
 
 .data-label {
@@ -317,7 +317,7 @@ header a:hover {
     margin-bottom: var(--spacing-md);
     font-size: var(--text-3xl);
     font-weight: 700;
-    color: var(--purple-800);
+    color: var(--blue-800);
 }
 
 .projects-swiper {
@@ -344,7 +344,7 @@ header a:hover {
 .project-card:hover {
     transform: translateY(-0.5rem);
     box-shadow: var(--shadow-lg);
-    border-color: var(--purple-300);
+    border-color: var(--blue-300);
 }
 
 .project-image {
@@ -353,7 +353,7 @@ header a:hover {
     align-items: center;
     width: 100%;
     height: 10rem;
-    background: linear-gradient(135deg, var(--purple-50) 0%, var(--purple-100) 100%);
+    background: linear-gradient(135deg, var(--blue-50) 0%, var(--blue-100) 100%);
 }
 
 .project-image img {
@@ -401,10 +401,10 @@ header a:hover {
 .tag {
     padding: 0.375rem 0.75rem;
     border-radius: var(--radius-sm);
-    background-color: var(--purple-100);
+    background-color: var(--blue-100);
     font-size: var(--text-sm);
     font-weight: 600;
-    color: var(--purple-800);
+    color: var(--blue-800);
 }
 
 /* Contêiner de Botões Interno do Card */
@@ -436,12 +436,12 @@ header a:hover {
 .swiper-button-next:after,
 .swiper-button-prev:after {
     font-size: var(--text-lg);
-    color: var(--purple-500);
+    color: var(--blue-500);
 }
 
 .swiper-button-next:hover:after,
 .swiper-button-prev:hover:after {
-    color: var(--purple-800);
+    color: var(--blue-800);
 }
 
 /* Paginação do Swiper */
@@ -455,7 +455,7 @@ header a:hover {
 .swiper-pagination-bullet-active {
     width: var(--spacing-lg);
     border-radius: var(--radius-sm);
-    background-color: var(--purple-500);
+    background-color: var(--blue-500);
 }
 
 /* Contato */
@@ -494,7 +494,7 @@ header a:hover {
 }
 
 .social-icon:hover {
-    background-color: var(--purple-100);
+    background-color: var(--blue-100);
 }
 
 .social-icon:hover img {
@@ -532,7 +532,7 @@ header a:hover {
 
 #formulario input:focus,
 #formulario textarea:focus {
-    border-color: var(--purple-500);
+    border-color: var(--blue-500);
     outline: none;
 }
 
@@ -550,7 +550,7 @@ header a:hover {
 /* Footer */
 footer {
     padding: 2.5rem;
-    background: linear-gradient(to right, var(--purple-500), var(--purple-800));
+    background: linear-gradient(to right, var(--blue-500), var(--blue-800));
     font-weight: 600;
     text-align: center;
     color: var(--white);
@@ -579,7 +579,7 @@ footer {
 .success-content h1 {
     font-size: var(--text-3xl);
     font-weight: 700;
-    color: var(--purple-800);
+    color: var(--blue-800);
 }
 
 .success-content h2 {
@@ -594,7 +594,7 @@ footer {
     width: 7.5rem;
     height: 7.5rem;
     border-radius: var(--radius-full);
-    background-color: var(--purple-100);
+    background-color: var(--blue-100);
 }
 
 .success-icon img {
@@ -735,4 +735,5 @@ footer {
     
     /* Success Page: Ajusta texto grande */
     .success-content h1 { font-size: var(--text-2xl); }
-}
+}       
+
