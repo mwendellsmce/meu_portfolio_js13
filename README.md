@@ -116,7 +116,7 @@ O site será aberto no navegador e todas as alterações poderão ser visualizad
 
 
 - Layout **responsivo**
-- Paleta de cores harmônica com tons de roxo e cinza
+- Paleta de cores harmônica com tons de azul e branco
 - **Animações suaves** (transições e efeitos de flutuação)
 - **Formulário funcional** com envio automático via e-mail
 - Estrutura de código **limpa e semântica**, seguindo boas práticas
@@ -127,7 +127,7 @@ O site será aberto no navegador e todas as alterações poderão ser visualizad
 
 Este site está disponível publicamente através do **GitHub Pages**. Você pode acessar a versão online pelo link abaixo:
 
-🔗 https://seu-usuario.github.io/seu-repositorio
+🔗 https://mwendellsmce.github.io/meu_portfolio_js13/
 
 ------
 
