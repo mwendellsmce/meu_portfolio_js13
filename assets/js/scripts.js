@@ -1,322 +1,267 @@
-// Seção about
-const about = document.querySelector('#about')
+// ==========================================
+// 1. DICIONÁRIO E ESTADO GLOBAL
+// ==========================================
+const dicionario = {
+    pt: {
+        nav_home: "Início", nav_about: "Sobre", nav_projects: "Projetos", nav_contact: "Contatos",
+        hero_greet: "Bem-vindo! Eu sou o Marcus", hero_title: "Desenvolvedor Full Stack", hero_desc: "Desenvolvendo sistemas completos e focados na melhor experiência para o usuário.",
+        btn_contact: "Entre em contato", btn_more: "Saiba mais...",
+        projects_title: "Meus Projetos", contact_title: "Entre em contato", contact_desc: "Sinta-se à vontade para entrar em contato comigo!",
+        form_name: "Nome", form_ph_name: "Digite o seu nome completo",
+        form_email: "E-mail", form_ph_email: "Digite o seu e-mail",
+        form_subject: "Assunto", form_ph_subject: "Digite o assunto da mensagem",
+        form_message: "Mensagem", form_ph_message: "Digite a sua mensagem",
+        btn_send: "Enviar Mensagem", btn_sending: "Enviando...",
+        footer_text: "Desenvolvido por Marcus Wendell - 2026",
+        about_title: "Sobre mim",
+        about_p1: "Olá! Sou o Marcus Wendell, estudante de Sistemas de Computação na UFF e Desenvolvedor Full Stack em formação pela Generation Brazil. Durante minha trajetória acadêmica, construí uma base sólida em lógica de programação e resolução de problemas utilizando Python.",
+        about_p2: "Atualmente, me dedico a criar aplicações escaláveis utilizando o ecossistema JavaScript (TypeScript, Node.js, NestJS e React). Sou apaixonado por resolver problemas reais de forma otimizada e busco minha primeira oportunidade profissional, focado em agregar valor através da tecnologia e do aprendizado contínuo.",
+        lbl_followers: "Seguidores", lbl_repos: "Repositórios",
+        btn_resume: "Currículo", link_resume: "./assets/docs/curriculo_marcus.pdf",
+        desc_repo_default: "Projeto desenvolvido no GitHub", btn_deploy: "Deploy",
+        err_name: "O nome deve ter no mínimo 3 caracteres", err_email: "Digite um endereço de e-mail válido",
+        err_subject: "O assunto deve ter no mínimo 5 caracteres", err_empty: "A mensagem não pode ser vazia"
+    },
+    en: {
+        nav_home: "Home", nav_about: "About", nav_projects: "Projects", nav_contact: "Contact",
+        hero_greet: "Welcome! I am Marcus", hero_title: "Full Stack Developer", hero_desc: "Developing complete systems focused on the best user experience.",
+        btn_contact: "Get in touch", btn_more: "Learn more...",
+        projects_title: "My Projects", contact_title: "Get in touch", contact_desc: "Feel free to reach out to me!",
+        form_name: "Name", form_ph_name: "Enter your full name",
+        form_email: "E-mail", form_ph_email: "Enter your e-mail",
+        form_subject: "Subject", form_ph_subject: "Enter the message subject",
+        form_message: "Message", form_ph_message: "Enter your message",
+        btn_send: "Send Message", btn_sending: "Sending...",
+        footer_text: "Developed by Marcus Wendell - 2026",
+        about_title: "About me",
+        about_p1: "Hello! I'm Marcus Wendell, a Computer Systems student at UFF and an aspiring Full Stack Developer training at Generation Brazil. During my academic journey, I built a solid foundation in programming logic and problem-solving using Python.",
+        about_p2: "Currently, I am dedicated to creating scalable applications using the JavaScript ecosystem (TypeScript, Node.js, NestJS, and React). I am passionate about solving real problems in an optimized way and am looking for my first professional opportunity, focused on adding value through technology and continuous learning.",
+        lbl_followers: "Followers", lbl_repos: "Repositories",
+        btn_resume: "Resume", link_resume: "./assets/docs/curriculo_marcus_en.pdf",
+        desc_repo_default: "Project developed on GitHub", btn_deploy: "Live Demo",
+        err_name: "Name must be at least 3 characters long", err_email: "Enter a valid e-mail address",
+        err_subject: "Subject must be at least 5 characters long", err_empty: "Message cannot be empty"
+    }
+};
 
-// Seção projects
-const swiperWrapper = document.querySelector('.swiper-wrapper')
+let idiomaAtual = localStorage.getItem('lang') || 'pt';
+let temaEscuro = localStorage.getItem('theme') === 'dark';
+let cachePerfil = null;
+let cacheRepos = null;
 
-// Formulário
-const formulario = document.querySelector('#formulario')
+// ==========================================
+// 2. LÓGICA DE TEMA E IDIOMA
+// ==========================================
+const btnTheme = document.getElementById('btn-theme');
+const btnLang = document.getElementById('btn-lang');
 
-// Expressão Regular de validação do e-mail
-const emailRegex = /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/
-
-// Função de preenchimento da seção about
-async function getAboutGitHub() {
-	try {
-		// Requisição do tipo GET para a API do GitHub
-		const resposta = await fetch(
-			'https://api.github.com/users/mwendellsmce',
-		)
-
-		// Converter a Resposta para JSON
-		const perfil = await resposta.json()
-
-		about.innerHTML = ''
-
-		about.innerHTML = `
-      
-      <!-- Imagem da Seção About -->
-      <figure class="about-image">
-        <img src="${perfil.avatar_url}"
-             alt="${perfil.name}"
-        >
-      </figure>
-
-      <!-- Conteúdo da Seção About -->
-      <article class="about-content">
-
-        <h2>Sobre mim</h2>
-        <p>Olá! Sou o Marcus Wendell, estudante de Sistemas de Computação na UFF e 
-          Desenvolvedor Full Stack em formação pela Generation Brazil. Durante minha 
-          trajetória acadêmica, construí uma base sólida em lógica de programação 
-          e resolução de problemas utilizando Python.</p>
-        <p>Atualmente, me dedico a criar aplicações escaláveis utilizando o ecossistema 
-          JavaScript (TypeScript, Node.js, NestJS e React). Sou apaixonado por 
-          resolver problemas reais de forma otimizada e busco minha primeira 
-          oportunidade profissional, focado em agregar valor através da tecnologia 
-          e do aprendizado contínuo.</p>
-
-        <!-- Links (GitHub + Curriculo) e Dados do GitHub -->
-        <div class="about-buttons-data">
-
-          <!-- Links -->
-          <div class="buttons-container">
-            <a href="${perfil.html_url}" target="_blank" class="botao">GitHub</a>
-            <a href="./assets/docs/curriculo_marcus.pdf" target="_blank" class="botao-outline">Currículo</a>
-          </div>
-
-          <!-- Dados - GitHub -->
-          <div class="data-container">
-
-            <!-- Nº de Seguidores -->
-            <div class="data-item">
-              <span class="data-number">${perfil.followers}</span>
-              <span class="data-label">Seguidores</span>
-            </div>
-
-            <!-- Nº de Repositórios Públicos -->
-            <div class="data-item">
-              <span class="data-number">${perfil.public_repos}</span>
-              <span class="data-label">Repositórios</span>
-            </div>
-
-          </div>
-
-        </div>
-      </article>
-
-    `
-	} catch (error) {
-		console.error('Erro ao buscar dados no GitHub', error)
-	}
+function inicializarPreferencias() {
+    if (temaEscuro) {
+        document.body.classList.add('dark-mode');
+        btnTheme.textContent = '☀️';
+    }
+    btnLang.textContent = idiomaAtual === 'pt' ? 'EN' : 'PT';
+    traduzirPagina();
 }
 
-// Função buscar os dados dos projetos
+btnTheme.addEventListener('click', () => {
+    temaEscuro = !temaEscuro;
+    document.body.classList.toggle('dark-mode');
+    btnTheme.textContent = temaEscuro ? '☀️' : '🌙';
+    localStorage.setItem('theme', temaEscuro ? 'dark' : 'light');
+});
 
-async function getProjectsGitHub() {
-	try {
-		// Requisição do tipo GET para a API do GitHub
-		const resposta = await fetch(
-			'https://api.github.com/users/mwendellsmce/repos?sort=pushed&per_page=6',
-		)
+btnLang.addEventListener('click', () => {
+    idiomaAtual = idiomaAtual === 'pt' ? 'en' : 'pt';
+    btnLang.textContent = idiomaAtual === 'pt' ? 'EN' : 'PT';
+    localStorage.setItem('lang', idiomaAtual);
+    traduzirPagina();
+});
 
-		// Converter a Resposta para JSON
-		const repositorios = await resposta.json()
+function traduzirPagina() {
+    // Traduz textos estáticos
+    document.querySelectorAll('[data-i18n]').forEach(elemento => {
+        const chave = elemento.getAttribute('data-i18n');
+        if (dicionario[idiomaAtual][chave]) elemento.textContent = dicionario[idiomaAtual][chave];
+    });
+    // Traduz placeholders de input/textarea
+    document.querySelectorAll('[data-i18n-placeholder]').forEach(elemento => {
+        const chave = elemento.getAttribute('data-i18n-placeholder');
+        if (dicionario[idiomaAtual][chave]) elemento.placeholder = dicionario[idiomaAtual][chave];
+    });
+    
+    // Re-renderiza dinâmicos
+    if (cachePerfil) renderizarAbout(cachePerfil);
+    if (cacheRepos) renderizarProjetos(cacheRepos);
+}
 
-		swiperWrapper.innerHTML = ''
+// ==========================================
+// 3. REQUISIÇÕES E RENDERIZAÇÃO
+// ==========================================
+const about = document.querySelector('#about');
+const swiperWrapper = document.querySelector('.swiper-wrapper');
 
-		// Ícones das linguagens
-		const linguagens = {
-			'JavaScript': 'javascript',
-			'TypeScript': 'typescript',
-			'Python': 'python',
-			'Java': 'java',
-			'HTML': 'html',
-			'CSS': 'css',
-			'PHP': 'php',
-			'C#': 'csharp',
-			'Go': 'go',
-			'Kotlin': 'kotlin',
-			'Swift': 'swift',
-			'C': 'c',
-			'C++': 'c_plus',
-			'GitHub': 'github',
-		}
+async function carregarDadosGitHub() {
+    try {
+        const [resPerfil, resRepos] = await Promise.all([
+            fetch('https://api.github.com/users/mwendellsmce'),
+            fetch('https://api.github.com/users/mwendellsmce/repos?sort=pushed&per_page=6')
+        ]);
+        cachePerfil = await resPerfil.json();
+        cacheRepos = await resRepos.json();
 
-		repositorios.forEach((repositorio) => {
-			
-      // Seleciona o nome da Linguagem padrão do repositório
-      const linguagem = repositorio.language || 'GitHub'
-			
-      // Seleciona o ícone da Linguagem padrão do repositório
-      const icone = linguagens[linguagem] ?? linguagens['GitHub']
-			
-      // Constrói a URL que aponta para o ícone da Linguagem padrão do repositório
-      const urlIcone = `./assets/icons/languages/${icone}.svg`
+        renderizarAbout(cachePerfil);
+        renderizarProjetos(cacheRepos);
+    } catch (error) {
+        console.error('Erro ao buscar dados no GitHub', error);
+    }
+}
 
-			// Formata o Nome do Repositório
-			const nomeFormatado = repositorio.name
-				.replace(/[-_]/g, ' ') // Substitui hifens e underlines por espaços em branco
-				.replace(/[^a-zA-Z0-9\s]/g, '') // Remove Caracteres especiais
-        .replace(/\s+t[a-z0-9]+$/i, '') // Remove a identificação de turma
-				.toUpperCase() // Converte a string em letras maiúsculas
-
-			// Função para truncar texto
-      // Se a descrição possuir mais de 100 carcateres
-      // seleciona os primeiros 97 e acrescenta '...' no final
-      // Senão retorna o mesmo texto
-			const truncar = (texto, limite) => texto.length > limite
-        ? texto.substring(0, limite) + '...'
-        : texto
-
-      // Define a descrição do Repositório
-      const descricao = repositorio.description
-        ? truncar(repositorio.description, 100)
-        : 'Projeto desenvolvido no GitHub'
-
-			// tags
-      const tags = repositorio.topics?.length > 0
-        ? repositorio.topics.slice(0, 3).map(topic => `<span class="tag">${topic}</span>`).join('')
-        : `<span class="tag">${linguagem}</span>`;
-
-      // Cria o Botão Deploy
-      const botaoDeploy = repositorio.homepage
-        ? `<a href="${repositorio.homepage}" target="_blank" class="botao-outline botao-sm">Deploy</a>`
-        : ''
-
-      // Botões de ação
-      const botoesAcao = `
-        <div class="project-buttons">
-          <a href="${repositorio.html_url}" target="_blank" class="botao botao-sm">
-            GitHub
-          </a>
-          ${botaoDeploy}
+function renderizarAbout(perfil) {
+    const t = dicionario[idiomaAtual];
+    about.innerHTML = `
+      <figure class="about-image">
+        <img src="${perfil.avatar_url}" alt="${perfil.name}">
+      </figure>
+      <article class="about-content">
+        <h2>${t.about_title}</h2>
+        <p>${t.about_p1}</p>
+        <p>${t.about_p2}</p>
+        <div class="about-buttons-data">
+          <div class="buttons-container">
+            <a href="${perfil.html_url}" target="_blank" class="botao">GitHub</a>
+            <a href="${t.link_resume}" target="_blank" class="botao-outline">${t.btn_resume}</a>
+          </div>
+          <div class="data-container">
+            <div class="data-item">
+              <span class="data-number">${perfil.followers}</span>
+              <span class="data-label">${t.lbl_followers}</span>
+            </div>
+            <div class="data-item">
+              <span class="data-number">${perfil.public_repos}</span>
+              <span class="data-label">${t.lbl_repos}</span>
+            </div>
+          </div>
         </div>
-      `;
+      </article>
+    `;
+}
 
-			// Constrói o Card
-			swiperWrapper.innerHTML += `
-      
+function renderizarProjetos(repositorios) {
+    const t = dicionario[idiomaAtual];
+    swiperWrapper.innerHTML = '';
+
+    const linguagens = {
+        'JavaScript': 'javascript', 'TypeScript': 'typescript', 'Python': 'python',
+        'Java': 'java', 'HTML': 'html', 'CSS': 'css', 'PHP': 'php', 'C#': 'csharp',
+        'Go': 'go', 'Kotlin': 'kotlin', 'Swift': 'swift', 'C': 'c', 'C++': 'c_plus', 'GitHub': 'github',
+    };
+
+    repositorios.forEach((repositorio) => {
+        const linguagem = repositorio.language || 'GitHub';
+        const icone = linguagens[linguagem] ?? linguagens['GitHub'];
+        const urlIcone = `./assets/icons/languages/${icone}.svg`;
+        const nomeFormatado = repositorio.name.replace(/[-_]/g, ' ').replace(/[^a-zA-Z0-9\s]/g, '').replace(/\s+t[a-z0-9]+$/i, '').toUpperCase();
+        const truncar = (texto, limite) => texto.length > limite ? texto.substring(0, limite) + '...' : texto;
+        const descricao = repositorio.description ? truncar(repositorio.description, 100) : t.desc_repo_default;
+        
+        const tags = repositorio.topics?.length > 0
+            ? repositorio.topics.slice(0, 3).map(topic => `<span class="tag">${topic}</span>`).join('')
+            : `<span class="tag">${linguagem}</span>`;
+
+        const botaoDeploy = repositorio.homepage
+            ? `<a href="${repositorio.homepage}" target="_blank" class="botao-outline botao-sm">${t.btn_deploy}</a>` : '';
+
+        swiperWrapper.innerHTML += `
           <div class="swiper-slide">
-
             <article class="project-card">
-
-              <!-- Ícone da Tecnologia padrão do projeto -->
               <figure class="project-image">
-                <img src="${urlIcone}"
-                     alt="Ícone - ${linguagem} - Linguagem principal do projeto"
-                >
+                <img src="${urlIcone}" alt="Ícone ${linguagem}">
               </figure>
-
-              <!-- Conteúdo do Projeto -->
               <div class="project-content">
-
                 <h3>${nomeFormatado}</h3>
                 <p>${descricao}</p>
-
-                <!-- Tags do Projeto -->
-                <div class="project-tags">
-                  ${tags}
+                <div class="project-tags">${tags}</div>
+                <div class="project-buttons">
+                  <a href="${repositorio.html_url}" target="_blank" class="botao botao-sm">GitHub</a>
+                  ${botaoDeploy}
                 </div>
-
-                ${botoesAcao}
-
               </div>
-
             </article>
-
           </div>
-      `
-		})
-
-		iniciarSwiper()
-	} catch (error) {
-		console.error('Erro ao buscar dados no GitHub', error)
-	}
+        `;
+    });
+    iniciarSwiper();
 }
 
 function iniciarSwiper() {
-	new Swiper('.projects-swiper', {
-		slidesPerView: 1,
-		slidesPerGroup: 1,
-		spaceBetween: 24,
-		centeredSlides: false,
-		loop: true,
-		watchOverflow: true,
-
-		breakpoints: {
-			0: {
-				slidesPerView: 1,
-				slidesPerGroup: 1,
-				spaceBetween: 40,
-				centeredSlides: false,
-			},
-			769: {
-				slidesPerView: 2,
-				slidesPerGroup: 2,
-				spaceBetween: 40,
-				centeredSlides: false,
-			},
-			1025: {
-				slidesPerView: 3,
-				slidesPerGroup: 3,
-				spaceBetween: 54,
-				centeredSlides: false,
-			},
-		},
-
-		navigation: {
-			nextEl: '.swiper-button-next',
-			prevEl: '.swiper-button-prev',
-		},
-
-		pagination: {
-			el: '.swiper-pagination',
-			clickable: true,
-			dynamicBullets: true,
-		},
-
-		autoplay: {
-			delay: 5000,
-			pauseOnMouseEnter: true,
-			disableOnInteraction: false,
-		},
-
-		grabCursor: true,
-		slidesOffsetBefore: 0,
-		slidesOffsetAfter: 0,
-	})
+    new Swiper('.projects-swiper', {
+        slidesPerView: 1, slidesPerGroup: 1, spaceBetween: 24, centeredSlides: false, loop: true, watchOverflow: true,
+        breakpoints: {
+            0: { slidesPerView: 1, slidesPerGroup: 1, spaceBetween: 40 },
+            769: { slidesPerView: 2, slidesPerGroup: 2, spaceBetween: 40 },
+            1025: { slidesPerView: 3, slidesPerGroup: 3, spaceBetween: 54 },
+        },
+        navigation: { nextEl: '.swiper-button-next', prevEl: '.swiper-button-prev' },
+        pagination: { el: '.swiper-pagination', clickable: true, dynamicBullets: true },
+        autoplay: { delay: 5000, pauseOnMouseEnter: true, disableOnInteraction: false },
+        grabCursor: true
+    });
 }
 
+// ==========================================
+// 4. FORMULÁRIO E VALIDAÇÕES
+// ==========================================
+const formulario = document.querySelector('#formulario');
+const emailRegex = /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/;
+
 formulario.addEventListener('submit', function (event) {
-	event.preventDefault()
+    event.preventDefault();
+    const t = dicionario[idiomaAtual];
 
-	document
-		.querySelectorAll('form span')
-		.forEach((span) => (span.innerHTML = ''))
+    document.querySelectorAll('form span').forEach((span) => (span.innerHTML = ''));
+    let isValid = true;
 
-	let isValid = true
+    const nome = document.querySelector('#nome');
+    const erroNome = document.querySelector('#erro-nome');
+    if (nome.value.trim().length < 3) {
+        erroNome.innerHTML = t.err_name;
+        if (isValid) nome.focus();
+        isValid = false;
+    }
 
-	const nome = document.querySelector('#nome')
-	const erroNome = document.querySelector('#erro-nome')
+    const email = document.querySelector('#email');
+    const erroEmail = document.querySelector('#erro-email');
+    if (!email.value.trim().match(emailRegex)) {
+        erroEmail.innerHTML = t.err_email;
+        if (isValid) email.focus();
+        isValid = false;
+    }
 
-	if (nome.value.trim().length < 3) {
-		erroNome.innerHTML = 'O nome deve ter no mínimo 3 caracteres'
-		if (isValid) nome.focus()
-		isValid = false
-	}
+    const assunto = document.querySelector('#assunto');
+    const erroAssunto = document.querySelector('#erro-assunto');
+    if (assunto.value.trim().length < 5) {
+        erroAssunto.innerHTML = t.err_subject;
+        if (isValid) assunto.focus();
+        isValid = false;
+    }
 
-	const email = document.querySelector('#email')
-	const erroEmail = document.querySelector('#erro-email')
+    const mensagem = document.querySelector('#mensagem');
+    const erroMensagem = document.querySelector('#erro-mensagem');
+    if (mensagem.value.trim().length === 0) {
+        erroMensagem.innerHTML = t.err_empty;
+        if (isValid) mensagem.focus();
+        isValid = false;
+    }
 
-	if (!email.value.trim().match(emailRegex)) {
-		erroEmail.innerHTML = 'Digite um endereço de e-mail válido'
-		if (isValid) email.focus()
-		isValid = false
-	}
+    if (isValid) {
+        const submitButton = formulario.querySelector('button[type="submit"]');
+        submitButton.disabled = true;
+        submitButton.textContent = t.btn_sending;
+        formulario.submit();
+    }
+});
 
-	const assunto = document.querySelector('#assunto')
-	const erroAssunto = document.querySelector('#erro-assunto')
-
-	if (assunto.value.trim().length < 5) {
-		erroAssunto.innerHTML =
-			'O assunto deve ter no mínimo 5 caracteres'
-		if (isValid) assunto.focus()
-		isValid = false
-	}
-
-	const mensagem = document.querySelector('#mensagem')
-	const erroMensagem = document.querySelector('#erro-mensagem')
-
-	if (mensagem.value.trim().length === 0) {
-		erroMensagem.innerHTML = 'A mensagem não pode ser vazia'
-		if (isValid) mensagem.focus()
-		isValid = false
-	}
-
-	if (isValid) {
-		const submitButton = formulario.querySelector(
-			'button[type="submit"]',
-		)
-		submitButton.disabled = true
-		submitButton.textContent = 'Enviando...'
-
-		formulario.submit()
-	}
-})
-
-// executar a função getAboutGitHub
-getAboutGitHub()
-
-// Executar a função getProjects GitHub
-getProjectsGitHub()
+// Inicializa a aplicação
+inicializarPreferencias();
+carregarDadosGitHub();
